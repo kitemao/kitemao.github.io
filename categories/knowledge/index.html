@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › knowledge</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title category">knowledge</h2>
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/12/02/transition/">display 触发 transition</a></h1>
+  
+
+      
+      <time datetime="2013-12-01T16:00:00.000Z">Dec 2 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>之前对transition一直模棱两可：</p>
+<pre><code>当定义了<span class="attribute">transition</span>后，任何用js改变的符合变换的样式都会执行动画
+</code></pre><p>好吧，但原来是隐藏的时候（display:none），然后显示出来（display:block），就不会执行了，需要一些技巧。</p>
+<p>一. 元素A默认是隐藏，要求显示出来，并有动画效果-透明度由0变为1</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    <span class="function"><span class="keyword">function</span> <span class="title">xxx</span><span class="params">()</span> {</span>
+        A.style.transition = <span class="string">'all 2s linear'</span>;
+        A.style.opacity = <span class="number">0</span>;
+        A.style.display = <span class="string">'block'</span>;
+        setTimeou(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+            A.style.opacity = <span class="number">1</span>;
+        }, <span class="number">10</span>);
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>后面的动作放到计时器里，就好用了哦。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/08/06/input-button/">在input text里回车会执行button的onclick</a></h1>
+  
+
+      
+      <time datetime="2013-08-05T16:00:00.000Z">Aug 6 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>form、input(text)、button， 浏览器为了方便，让他们有了千丝万缕的关系。。。。</p>
+<p>测试在input(text)里回车，是否会执行button的onclick？</p>
+<p><strong>一. 无form, button(没有设置type)*</strong></p>
+<pre><code><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"text"</span> /&gt;</span>
+<span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"alert(navigator.userAgent)"</span>&gt;</span>click me<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+</code></pre><p>在input(text)回车：</p>
+<ul>
+<li>chrome 没有弹窗</li>
+<li>ie7 没有弹窗</li>
+<li>ie8 ie9 弹出alert</li>
+</ul>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/08/06/input-button/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/04/10/nginx-rewrite/">nginx的rewrite的处理顺序</a></h1>
+  
+
+      
+      <time datetime="2013-04-09T16:00:00.000Z">Apr 10 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>nginx的rewrite指令会经常用到，这里探讨一下的它的执行顺序</p>
+<h4 id="首先说一下指令rewrite的语法配置：">首先说一下指令rewrite的语法配置：</h4>
+<pre><code>语法：<span class="tag">rewrite</span> <span class="tag">regex</span> <span class="tag">replacement</span> <span class="attr_selector">[ flag ]</span>
+</code></pre><p>flag标记有：</p>
+<ul>
+<li>last — 表示完成本次location的rewrite，使用新地址重新进行一轮匹配（浏览器地址不变）</li>
+<li>break — 本条规则匹配完成后， 终止所有匹配，返回文件（浏览器地址不变）</li>
+<li>redirect — 返回302临时重定向（浏览器地址变为后面的跳转后的地址）</li>
+<li>permanent — 返回301永久重定向（浏览器地址变为后面的跳转后的地址）</li>
+</ul>
+<p>好吧，我相信对于last和break，你已经懵了，没事，往下看！！！！</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/04/10/nginx-rewrite/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/01/31/nginx-location/">nginx的location</a></h1>
+  
+
+      
+      <time datetime="2013-01-30T16:00:00.000Z">Jan 31 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>最近要将前端代码移到nginx上，需要了解nginx的配置—nginx.conf。关于location配置的优先级做了<br>一个实验。</p>
+<h4 id="首先说一下指令location的语法配置：">首先说一下指令location的语法配置：</h4>
+<pre><code>语法：location [=|~|~*|^~] /uri/ { <span class="keyword">...</span> }
+</code></pre><p>由前缀和path组成。前缀有4个，当然也可以不写（默认是不写的）</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/01/31/nginx-location/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2012/10/10/javascript-label/">javascript支持label</a></h1>
+  
+
+      
+      <time datetime="2012-10-09T16:00:00.000Z">Oct 10 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>今天在翻jslint的时候发现这一条：</p>
+<pre><code>JavaScript allows any statement <span class="keyword">to</span> have a label, <span class="keyword">and</span> labels have a separate <span class="property">name</span> <span class="constant">space</span>. JSLint <span class="keyword">is</span> more strict.
+JSLint expects labels only <span class="function_start"><span class="keyword">on</span></span> statements <span class="keyword">that</span> interact <span class="keyword">with</span> break: switch, <span class="keyword">while</span>, do, <span class="keyword">and</span> <span class="keyword">for</span>. JSLint expects <span class="keyword">that</span> labels will be distinct <span class="keyword">from</span> vars <span class="keyword">and</span> parameters.
+</code></pre><p>这时看不懂了，这个label指的是什么。通过询问同事，发现原来javascript还支持这么个东西，竟然之前都不知道。<br>看下面的代码就知道了。</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    outer:<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) {
+
+        alert(i);
+        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1</span>; j++) {
+
+            <span class="keyword">break</span> outer;
+        }
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>这个outer就是那个label，正常的break只会跳出上一层的循环，这样就会跳出这两层for循环，在别的语言里还有goto，嘿嘿，不过js就没有了。天杀的，一直怎么就没有看到过呢。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+<article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2012/09/05/wbr-word-wrap/">英文自动折行</a></h1>
+  
+
+      
+      <time datetime="2012-09-04T16:00:00.000Z">Sep 5 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>在网页中英文数字不会自动折行，往往会撑出父元素。这个需要前端开发人员手动去处理，这里列出几种方式：</p>
+<p>一. <strong>css 方式</strong></p>
+<pre><code>    word-wrap:<span class="keyword">break</span>-word; 
+    word-<span class="keyword">break</span>: <span class="keyword">break</span>-<span class="built_in">all</span>;
+</code></pre><p>这种方式之前在firefox下是不支持的，但高版本的firefox已经加上此特性，所以目前所有的浏览器都已经支持了，大家可以放心的用。</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2012/09/05/wbr-word-wrap/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+<div class="pagination">
+  <table width='100%'>
+    <tbody>
+    <tr>
+      <td width='120' align='left'>
+        
+      </td>
+      <td width='auto' align='center'>
+          <a href="/archives/">文章归档</a>
+      </td>
+      <td width='120' align='right'>
+        
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

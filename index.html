@@ -1,0 +1,514 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/12/24/package.json/">package.json翻译</a></h1>
+  
+
+      
+      <time datetime="2013-12-23T16:00:00.000Z">Dec 24 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <h3 id="描述">描述</h3>
+<p>这个文档列出package.json中要求的所有东西，都是需要你去了解的，它一定是一个真实的json, 而不只是一个js对象字面量</p>
+<p>这个文档中描述的大部分行为都被<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank">npm-config(7)</a>描述的配置设置所影响</p>
+<p>
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/12/24/package.json/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/12/02/transition/">display 触发 transition</a></h1>
+  
+
+      
+      <time datetime="2013-12-01T16:00:00.000Z">Dec 2 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>之前对transition一直模棱两可：</p>
+<pre><code>当定义了<span class="attribute">transition</span>后，任何用js改变的符合变换的样式都会执行动画
+</code></pre><p>好吧，但原来是隐藏的时候（display:none），然后显示出来（display:block），就不会执行了，需要一些技巧。</p>
+<p>一. 元素A默认是隐藏，要求显示出来，并有动画效果-透明度由0变为1</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    <span class="function"><span class="keyword">function</span> <span class="title">xxx</span><span class="params">()</span> {</span>
+        A.style.transition = <span class="string">'all 2s linear'</span>;
+        A.style.opacity = <span class="number">0</span>;
+        A.style.display = <span class="string">'block'</span>;
+        setTimeou(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+            A.style.opacity = <span class="number">1</span>;
+        }, <span class="number">10</span>);
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>后面的动作放到计时器里，就好用了哦。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/08/06/input-button/">在input text里回车会执行button的onclick</a></h1>
+  
+
+      
+      <time datetime="2013-08-05T16:00:00.000Z">Aug 6 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>form、input(text)、button， 浏览器为了方便，让他们有了千丝万缕的关系。。。。</p>
+<p>测试在input(text)里回车，是否会执行button的onclick？</p>
+<p><strong>一. 无form, button(没有设置type)*</strong></p>
+<pre><code><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"text"</span> /&gt;</span>
+<span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"alert(navigator.userAgent)"</span>&gt;</span>click me<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+</code></pre><p>在input(text)回车：</p>
+<ul>
+<li>chrome 没有弹窗</li>
+<li>ie7 没有弹窗</li>
+<li>ie8 ie9 弹出alert</li>
+</ul>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/08/06/input-button/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/07/31/testing/">测试题</a></h1>
+  
+
+      
+      <time datetime="2013-07-30T16:00:00.000Z">Jul 31 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>一. 问：一个数组，求对此数组成员进行去重</p>
+<p>答： </p>
+<pre><code><span class="built_in">Array</span>.prototype.uniq = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">var</span> i = <span class="number">0</span>;
+    <span class="keyword">while</span> (i &lt; <span class="keyword">this</span>.length) {
+        <span class="keyword">var</span> j = i + <span class="number">1</span>;
+
+        <span class="keyword">while</span> (j &lt; <span class="keyword">this</span>.length) {
+            <span class="keyword">if</span> (<span class="keyword">this</span>[i] === <span class="keyword">this</span>[j]) {
+                <span class="keyword">this</span>.splice(j, <span class="number">1</span>);
+            }
+            <span class="keyword">else</span> {
+                j++;
+            }
+        }
+        i++;
+    }
+}
+</code></pre><p>结果：</p>
+<pre><code>&gt; var arr = [ <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="string">'1'</span>];
+&gt; arr.uni<span class="string">q()</span>;
+&gt; arr
+  [ <span class="string">'a'</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="string">'1'</span> ] 
+</code></pre><p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/04/10/nginx-rewrite/">nginx的rewrite的处理顺序</a></h1>
+  
+
+      
+      <time datetime="2013-04-09T16:00:00.000Z">Apr 10 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>nginx的rewrite指令会经常用到，这里探讨一下的它的执行顺序</p>
+<h4 id="首先说一下指令rewrite的语法配置：">首先说一下指令rewrite的语法配置：</h4>
+<pre><code>语法：<span class="tag">rewrite</span> <span class="tag">regex</span> <span class="tag">replacement</span> <span class="attr_selector">[ flag ]</span>
+</code></pre><p>flag标记有：</p>
+<ul>
+<li>last — 表示完成本次location的rewrite，使用新地址重新进行一轮匹配（浏览器地址不变）</li>
+<li>break — 本条规则匹配完成后， 终止所有匹配，返回文件（浏览器地址不变）</li>
+<li>redirect — 返回302临时重定向（浏览器地址变为后面的跳转后的地址）</li>
+<li>permanent — 返回301永久重定向（浏览器地址变为后面的跳转后的地址）</li>
+</ul>
+<p>好吧，我相信对于last和break，你已经懵了，没事，往下看！！！！</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/04/10/nginx-rewrite/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/01/31/nginx-location/">nginx的location</a></h1>
+  
+
+      
+      <time datetime="2013-01-30T16:00:00.000Z">Jan 31 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>最近要将前端代码移到nginx上，需要了解nginx的配置—nginx.conf。关于location配置的优先级做了<br>一个实验。</p>
+<h4 id="首先说一下指令location的语法配置：">首先说一下指令location的语法配置：</h4>
+<pre><code>语法：location [=|~|~*|^~] /uri/ { <span class="keyword">...</span> }
+</code></pre><p>由前缀和path组成。前缀有4个，当然也可以不写（默认是不写的）</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2013/01/31/nginx-location/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2013/01/23/table-relative/">table元素设置position为relative</a></h1>
+  
+
+      
+      <time datetime="2013-01-22T16:00:00.000Z">Jan 23 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>有一个需求，table的表头th有两个箭头，一个紧挨着th的上面，一个紧挨着th的下面，点击箭头可以排序，但是th的高度不固定，会随着内容的换行高度变化。</p>
+<p>有几种方式：</p>
+<h4 id="一-_给th设置position为relative">一. 给th设置position为relative</h4>
+<p><a href="http://www.w3.org/TR/CSS21/visuren.html#choose-position" title="css2.1规范" target="_blank">css2.1规范</a><br> 写到<br>The effect of ‘position:relative’ on table-row-group, table-header-group,table-footer-group, table-row, table-column-group, table-column, table-cell, and table-caption elements is undefined.</p>
+<p>然后浏览器实现的也不一样，ie系列、chrome（自己测试高版本的是支持的）支持，firefox直接无视了此style设置（看来firefox下display为block，inline-block可以，table-cell不可以）。</p>
+<h4 id="二-_给th里加一个div，用此div包裹箭头，并设置此div定位为相对定位">二. 给th里加一个div，用此div包裹箭头，并设置此div定位为相对定位</h4>
+<p>测试发现：两个th的内容，一个是一行，一个是两行，然后div的高度就不一样（为内容的高度），看来div的高度必须设成th的高度才行呀，好吧， 将div高度设为100%，坑爹不起作用。因为th的高度必须有值，100%才起作用，但此th的高度是自适应的肯定不能写死，好吧，此路不同</p>
+<h4 id="三-_用第二种方式，但需要用js先计算出th的最大高度，然后设所有th为此高度，好吧，终于可以了，虽然比较坑爹">三. 用第二种方式，但需要用js先计算出th的最大高度，然后设所有th为此高度，好吧，终于可以了，虽然比较坑爹</h4>
+<p><strong>参考文档：</strong></p>
+<ul>
+<li><a href="http://www.w3.org/TR/CSS21/visuren.html#choose-position" target="_blank">http://www.w3.org/TR/CSS21/visuren.html#choose-position</a>  </li>
+<li><a href="http://w3help.org/zh-cn/causes/RM8024" target="_blank">http://w3help.org/zh-cn/causes/RM8024</a></li>
+</ul>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2012/10/10/javascript-label/">javascript支持label</a></h1>
+  
+
+      
+      <time datetime="2012-10-09T16:00:00.000Z">Oct 10 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>今天在翻jslint的时候发现这一条：</p>
+<pre><code>JavaScript allows any statement <span class="keyword">to</span> have a label, <span class="keyword">and</span> labels have a separate <span class="property">name</span> <span class="constant">space</span>. JSLint <span class="keyword">is</span> more strict.
+JSLint expects labels only <span class="function_start"><span class="keyword">on</span></span> statements <span class="keyword">that</span> interact <span class="keyword">with</span> break: switch, <span class="keyword">while</span>, do, <span class="keyword">and</span> <span class="keyword">for</span>. JSLint expects <span class="keyword">that</span> labels will be distinct <span class="keyword">from</span> vars <span class="keyword">and</span> parameters.
+</code></pre><p>这时看不懂了，这个label指的是什么。通过询问同事，发现原来javascript还支持这么个东西，竟然之前都不知道。<br>看下面的代码就知道了。</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    outer:<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) {
+
+        alert(i);
+        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1</span>; j++) {
+
+            <span class="keyword">break</span> outer;
+        }
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>这个outer就是那个label，正常的break只会跳出上一层的循环，这样就会跳出这两层for循环，在别的语言里还有goto，嘿嘿，不过js就没有了。天杀的，一直怎么就没有看到过呢。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2012/09/05/wbr-word-wrap/">英文自动折行</a></h1>
+  
+
+      
+      <time datetime="2012-09-04T16:00:00.000Z">Sep 5 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>在网页中英文数字不会自动折行，往往会撑出父元素。这个需要前端开发人员手动去处理，这里列出几种方式：</p>
+<p>一. <strong>css 方式</strong></p>
+<pre><code>    word-wrap:<span class="keyword">break</span>-word; 
+    word-<span class="keyword">break</span>: <span class="keyword">break</span>-<span class="built_in">all</span>;
+</code></pre><p>这种方式之前在firefox下是不支持的，但高版本的firefox已经加上此特性，所以目前所有的浏览器都已经支持了，大家可以放心的用。</p>
+
+      
+    </div>
+    
+      
+      <footer>
+        <div class="alignleft">
+          <a href="/2012/09/05/wbr-word-wrap/#more" class="more-link">阅读全文 &gt;</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      
+    
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/2012/08/30/fiddler-script/">使用fiddler自动下载指定文件</a></h1>
+  
+
+      
+      <time datetime="2012-08-29T16:00:00.000Z">Aug 30 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="使用fiddler构建动态数据桩———用fiddler按目录_自动下载保存_浏览器请求的文件-">使用fiddler构建动态数据桩———用fiddler按目录 自动下载保存 浏览器请求的文件.</h2>
+<p>前段时间想构建一个json数据桩，需要从线上拉下json数据，懒得动手一个个复制，就研究了下fiddler，通过fiddler自动按照规则从指定线上落下数据，本地保存。</p>
+<p>需要使用fiddler工具，如果没有fiddler，请先行下载。 <a href="http://www.fiddler2.com/fiddler2/" title="fiddler2 下载" target="_blank">fiddler下载地址</a></p>
+<h3 id="配置方式：">配置方式：</h3>
+<ol>
+<li><p>先打开fiddler， 然后点击 工具栏—》Rules —》Customize Rules…, 打开fiddler的配置脚本， 用项目目录里的<a href="https://gist.github.com/3864123" title="CustomRules.js" target="_blank">CustomRules.js</a>内容覆盖掉此脚本。</p>
+</li>
+<li><p>在脚本文件中把数据桩地址变为本地自己的存储地址    static var gs_localPath: String = ‘F:/testdata’;<br>保存即可。</p>
+</li>
+<li><p>将脚本中的www.xxx.com 改为自己要下载的网址。</p>
+</li>
+<li><p>打开fiddler- 工具栏- rules  选中Data storage，打开浏览器操作想操作的网址，系统里的所请求的action就会自动下载到本地配置地址。<br> 如果在开发过程中发现只差一个文件，则可在fiddler的链接栏里选中link，右击，点击 Data storage即可只更新此link（可多选）</p>
+<p> Ps:只会更新状态码是200的请求（当然这是可配的）。</p>
+</li>
+</ol>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+      
+    
+  </div>
+</article>
+
+
+
+
+
+<div class="pagination">
+  <table width='100%'>
+    <tbody>
+    <tr>
+      <td width='120' align='left'>
+        
+      </td>
+      <td width='auto' align='center'>
+          <a href="/archives/">文章归档</a>
+      </td>
+      <td width='120' align='right'>
+        
+        <div class="alignright">
+          <a href="/page/2/" class="alignright next">Next ›</a>
+        </div>
+        
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div></div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

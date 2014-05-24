@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › javascript支持label</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript支持label"/>
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">javascript支持label</h1>
+  
+
+      
+      <time datetime="2012-10-09T16:00:00.000Z">Oct 10 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>今天在翻jslint的时候发现这一条：</p>
+<pre><code>JavaScript allows any statement <span class="keyword">to</span> have a label, <span class="keyword">and</span> labels have a separate <span class="property">name</span> <span class="constant">space</span>. JSLint <span class="keyword">is</span> more strict.
+JSLint expects labels only <span class="function_start"><span class="keyword">on</span></span> statements <span class="keyword">that</span> interact <span class="keyword">with</span> break: switch, <span class="keyword">while</span>, do, <span class="keyword">and</span> <span class="keyword">for</span>. JSLint expects <span class="keyword">that</span> labels will be distinct <span class="keyword">from</span> vars <span class="keyword">and</span> parameters.
+</code></pre><p>这时看不懂了，这个label指的是什么。通过询问同事，发现原来javascript还支持这么个东西，竟然之前都不知道。<br>看下面的代码就知道了。</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    outer:<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) {
+
+        alert(i);
+        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1</span>; j++) {
+
+            <span class="keyword">break</span> outer;
+        }
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>这个outer就是那个label，正常的break只会跳出上一层的循环，这样就会跳出这两层for循环，在别的语言里还有goto，嘿嘿，不过js就没有了。天杀的，一直怎么就没有看到过呢。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/knowledge/">knowledge</a>
+  </div>
+
+      
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"maojs"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] 
+                     || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

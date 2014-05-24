@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › display 触发 transition</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="display 触发 transition"/>
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">display 触发 transition</h1>
+  
+
+      
+      <time datetime="2013-12-01T16:00:00.000Z">Dec 2 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>之前对transition一直模棱两可：</p>
+<pre><code>当定义了<span class="attribute">transition</span>后，任何用js改变的符合变换的样式都会执行动画
+</code></pre><p>好吧，但原来是隐藏的时候（display:none），然后显示出来（display:block），就不会执行了，需要一些技巧。</p>
+<p>一. 元素A默认是隐藏，要求显示出来，并有动画效果-透明度由0变为1</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+    <span class="function"><span class="keyword">function</span> <span class="title">xxx</span><span class="params">()</span> {</span>
+        A.style.transition = <span class="string">'all 2s linear'</span>;
+        A.style.opacity = <span class="number">0</span>;
+        A.style.display = <span class="string">'block'</span>;
+        setTimeou(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+            A.style.opacity = <span class="number">1</span>;
+        }, <span class="number">10</span>);
+    }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>后面的动作放到计时器里，就好用了哦。。。</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/knowledge/">knowledge</a>
+  </div>
+
+      
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"maojs"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] 
+                     || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

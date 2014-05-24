@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › package.json翻译</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="package.json翻译"/>
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">package.json翻译</h1>
+  
+
+      
+      <time datetime="2013-12-23T16:00:00.000Z">Dec 24 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <h3 id="描述">描述</h3>
+<p>这个文档列出package.json中要求的所有东西，都是需要你去了解的，它一定是一个真实的json, 而不只是一个js对象字面量</p>
+<p>这个文档中描述的大部分行为都被<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank">npm-config(7)</a>描述的配置设置所影响</p>
+<p><a id="more"></a></p>
+<h3 id="默认值">默认值</h3>
+<p>npm会有一些基于包内容的默认值</p>
+<ul>
+<li><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;node server.js&quot;}</code></li>
+</ul>
+<p>如果在你的包的根目录有一个server.js文件， 则npm会把<code>node server.js</code>作为默认的开始命令</p>
+<ul>
+<li><code>scripts: {&quot;preinstall&quot;: &quot;node-waf clean || true; node-waf configure build&quot;}</code></li>
+</ul>
+<p>如果在你的包的根目录有一个wscript文件， 则npm会默认使用<code>preinstall</code>命令去编译使用<code>node-waf</code></p>
+<ul>
+<li><code>scripts: {&quot;preinstall&quot;: &quot;node-gyp rebuild&quot;}</code></li>
+</ul>
+<p>如果在你的包的根目录有一个binding.gyp文件,则npm会默认使用<code>preinstall</code>命令去编译使用<code>node-gyp</code>    </p>
+<ul>
+<li><code>&quot;contributors&quot;: [...]</code></li>
+</ul>
+<p>如果在你的包的根目录有一个AUTHORS文件, npm会以<code>Name &lt;email&gt; (url)</code>的格式追踪每一行，email和url是可选的，空行和以#开头的行会被忽略</p>
+<h3 id="name">name</h3>
+<p>在package.json里最重要的就是name和version字段，它们是必需的，包没有它们是不能安装的，name和version一起形成一个独一无二标示符，包的改变和版本的改变是一起变化的。</p>
+<p>这个名称name就是你所需要调用的，一些tips:</p>
+<ul>
+<li>不要在名字里放<code>js</code>和<code>name</code>, 它会被假定为js的，因为你正在写的是package.json文件,你能够用<code>engines</code>字段指定引擎（看下面）。</li>
+<li>这个名字作为URL结束的一部分，作为命令行的一个参数，作为一个文件夹名称，有non-url-safe字符的任何名字都会别拒绝的，也就是说，它不能以点号或下划线作为开始</li>
+<li>这个名字可能作为一个参数给require(),所以它应该是短的，而且也可以被合理描述的。</li>
+<li>你可以需要用npm register 看看是否这个name已经被注册了，在你想要提交它之前。</li>
+</ul>
+<h3 id="version">version</h3>
+<p>在package.json里最重要的就是name和version字段，它们是必需的，包没有它们是不能安装的，name和version一起形成一个独一无二标示符，包的改变和版本的改变是一起变化的。</p>
+<p>version必须能够被<a href="https://github.com/isaacs/node-semver" target="_blank">node-semver</a>—-它是作为npm的一个依赖捆绑的——-解析的（npm install semver to use it yourself）</p>
+<p>更多的版本数字和范围参见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank">semver</a></p>
+<h3 id="description">description</h3>
+<p>在里面放一个描述，它是字符串，它能够帮助人们发现这个包，在<code>npm search</code>里能被列出来</p>
+<h3 id="keywords">keywords</h3>
+<p>在里面放一个关键词，字符串数组，它能够帮助人们发现这个包，在<code>npm search</code>里能被列出来</p>
+<h3 id="main">main</h3>
+<p>这个mian字段是一个模块ID,这个ID是你程序的最主要入口点，也就是说，如果你的包命名为<code>foo</code>，而且一个用户安装了它，这时候做<code>require(foo)</code>，这是你的mian模块的导出对象会被立即返回。</p>
+<p>这个模块ID应该是相对于包根目录的。对于大部分模块来说，设置一个mian字段是很有意义的。</p>
+<h3 id="bin">bin</h3>
+<p>许多包都有一个或更多的想要安装到PATH的可执行文件，npm会使这个变得很重要（事实上，它也是使用这个特性是‘npm’变成可执行的）。</p>
+<p>为了使用这个，要提供一个bin字段，这个字段对应的值为一个map, 是命令名到本地文件的一个映射，npm会做一个符号链接添加到<code>profix/bin</code>作为全局安装，或者<code>./node_modules/.bin/</code>作为本地安装。</p>
+<p>例如这个：</p>
+<pre><code>{”bin“: {<span class="string">"npm"</span>: <span class="string">"./cli.js"</span>}}
+</code></pre><p>当你安装npm的时候，会创建一个符号链接，从<code>cli.js</code>脚本到<code>/usr/local/bin/npm</code></p>
+<p>如果你有一个单独的可执行脚本，它的名字要是包的名字，且为字符串：</p>
+<pre><code>{ <span class="string">"name"</span>: <span class="string">"my-program"</span>
+</code></pre><p>   , “version”: “1.2.5”<br>   , “bin”: “./path/to/program” }</p>
+<p>和这个是一样的：</p>
+<pre><code>{ <span class="string">"name"</span>: <span class="string">"my-program"</span>
+</code></pre><p>   , “version”: “1.2.5”<br>   , “bin” : { “my-program” : “./path/to/program” } }</p>
+<h3 id="repository">repository</h3>
+<p>指定你的代码存放的地方，这对于想要贡献代码的人是很重要的，如果git仓库放到github上，这时候<code>npm docs</code>命令能够找到它。</p>
+<p>就像这样：</p>
+<pre><code><span class="string">"repository"</span> :
+</code></pre><p>  { “type” : “git”<br>  , “url” : “<a href="http://github.com/isaacs/npm.git" target="_blank">http://github.com/isaacs/npm.git</a>“<br>  }<br>    “repository” :<br>  { “type” : “svn”<br>  , “url” : “<a href="http://v8.googlecode.com/svn/trunk/" target="_blank">http://v8.googlecode.com/svn/trunk/</a>“<br>  }</p>
+<p> 这个URL应该是一个公共有效地url,这个能够没有任何修改的直接提交到版本系统里，他不应该是一个能够被浏览器打开的html页面，应该是在桌面使用的url</p>
+<h3 id="dependencies">dependencies</h3>
+<p>dependencies是以包名为key和版本范围为value的hash对象所指定的。<br>版本范围是由一个或更多空格分割的描述符所组成的一个字符串。</p>
+<p>dependencies也能被一个<code>tarball</code>和<code>git url</code>所指定。</p>
+<p><em>请不要放测试工具和transpilers在你的dependencies hash里</em>，这个请看下面的devDependencise.</p>
+<p>可以看<a href="https://npmjs.org/doc/misc/semver.html" target="_blank">semver(7)</a>了解关于版本范围的更多细节。</p>
+<ul>
+<li><code>version</code> 必须精确匹配 <code>version</code></li>
+<li><code>&gt;version</code> 必须比 <code>version</code>更大</li>
+<li><code>&gt;=version</code> etc</li>
+<li><code>&lt;version</code></li>
+<li><code>&lt;=version</code></li>
+<li><code>~version</code> “大约近似等于这个版本version” 更多了解<a href="https://npmjs.org/doc/misc/semver.html" target="_blank">semver(7)</a></li>
+<li><code>1.2.x</code> 1.2.0,1.2.1,etc.,但不是1.3.0</li>
+<li><code>http://...</code> 看下面的‘URLs as Dependencies’</li>
+<li><code>*</code> 匹配所有的版本</li>
+<li><code>&quot;“</code>（一个空字符串），等于<code>*</code></li>
+<li><code>version1 - version2</code> 类似于 <code>&gt;=version1 &lt;=version2</code></li>
+<li><code>range1 || range2</code> 两个至少满足一个</li>
+<li><code>git...</code> 看下面的‘Git URLs as Dependencies’</li>
+<li>‘user/repo’看下面的‘Github urls’</li>
+</ul>
+<p>例如：</p>
+<pre><code>{ "<span class="attribute">dependencies</span>" :
+    <span class="value">{ "<span class="attribute">foo</span>" : <span class="value"><span class="string">"1.0.0 - 2.9999.9999"</span>
+    </span>, "<span class="attribute">bar</span>" : <span class="value"><span class="string">"&gt;=1.0.2 &lt;2.1.2"</span>
+    </span>, "<span class="attribute">baz</span>" : <span class="value"><span class="string">"&gt;1.0.2 &lt;=2.3.4"</span>
+    </span>, "<span class="attribute">boo</span>" : <span class="value"><span class="string">"2.0.1"</span>
+    </span>, "<span class="attribute">qux</span>" : <span class="value"><span class="string">"&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0"</span>
+    </span>, "<span class="attribute">asd</span>" : <span class="value"><span class="string">"http://asdf.com/asdf.tar.gz"</span>
+    </span>, "<span class="attribute">til</span>" : <span class="value"><span class="string">"~1.2"</span>
+    </span>, "<span class="attribute">elf</span>" : <span class="value"><span class="string">"~1.2.3"</span>
+    </span>, "<span class="attribute">two</span>" : <span class="value"><span class="string">"2.x"</span>
+    </span>, "<span class="attribute">thr</span>" : <span class="value"><span class="string">"3.3.x"</span>
+    </span>}
+</span>}
+</code></pre><h3 id="devDependencies">devDependencies</h3>
+<p>如果一个人计划在他们的程序里下载和使用你的模块，但他们并想要和需要去下载和build那些额外的测试和文档框架<br>最好在devDependencies hash里列出这些项。</p>
+<p>在包的根目录执行<code>npm link</code>或<code>npm install</code>时这些项能够被安装，也能够被其他任何npm配置参数所管理，更多请参见<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank">npm-config(7)</a></p>
+<p>build步骤不是platform-specific,例如编译coffeeScript或其他的语言到javascript，要使用prepublish脚本去做这个。</p>
+<p>例如：</p>
+<pre><code>json { <span class="string">"name"</span>: <span class="string">"ethopia-waza"</span>, <span class="string">"description"</span>: <span class="string">"a delightfully fruity coffee varietal"</span>, <span class="string">"version"</span>: <span class="string">"1.2.3"</span>, <span class="string">"devDependencies"</span>: { <span class="string">"coffee-script"</span>: <span class="string">"~1.6.3"</span> }, <span class="string">"scripts"</span>: { <span class="string">"prepublish"</span>: <span class="string">"coffee -o lib/ -c src/waza.coffee"</span> }, <span class="string">"main"</span>: <span class="string">"lib/waza.js"</span> }
+</code></pre><p>这个<code>prepublish</code>脚本会在发布之前运行，以至于用户不用在请求包的时候还要自己编译它们，当然在开发模式（本地运行npm install）, 它还是会很好的运行这个脚本，让你很容易的去测试它</p>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/translate/">translate</a>
+  </div>
+
+      
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"maojs"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] 
+                     || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

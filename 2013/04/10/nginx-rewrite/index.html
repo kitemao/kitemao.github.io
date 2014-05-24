@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › nginx的rewrite的处理顺序</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="nginx的rewrite的处理顺序"/>
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">nginx的rewrite的处理顺序</h1>
+  
+
+      
+      <time datetime="2013-04-09T16:00:00.000Z">Apr 10 2013</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>nginx的rewrite指令会经常用到，这里探讨一下的它的执行顺序</p>
+<h4 id="首先说一下指令rewrite的语法配置：">首先说一下指令rewrite的语法配置：</h4>
+<pre><code>语法：<span class="tag">rewrite</span> <span class="tag">regex</span> <span class="tag">replacement</span> <span class="attr_selector">[ flag ]</span>
+</code></pre><p>flag标记有：</p>
+<ul>
+<li>last — 表示完成本次location的rewrite，使用新地址重新进行一轮匹配（浏览器地址不变）</li>
+<li>break — 本条规则匹配完成后， 终止所有匹配，返回文件（浏览器地址不变）</li>
+<li>redirect — 返回302临时重定向（浏览器地址变为后面的跳转后的地址）</li>
+<li>permanent — 返回301永久重定向（浏览器地址变为后面的跳转后的地址）</li>
+</ul>
+<p>好吧，我相信对于last和break，你已经懵了，没事，往下看！！！！</p>
+<a id="more"></a>
+
+<h4 id="实例">实例</h4>
+<p>建立5个文件（aa.html, bb.html, cc.html, dd.html， ee.html）,内容对应的是（aa, bb, cc, dd, ee）    </p>
+<p><strong>没有last和break</strong></p>
+<p>代码：</p>
+<pre><code><span class="title">server</span> {
+    <span class="title">listen</span>       <span class="number">8390</span>;
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /aa.html {
+
+      <span class="title">rewrite</span> <span class="string">'/aa.html$'</span> <span class="string">'/bb.html'</span>;
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/dd.html'</span>;
+    }
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /bb.html {
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/cc.html'</span>;
+    }
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /dd.html {
+      <span class="title">rewrite</span> <span class="string">'/dd.html$'</span> <span class="string">'/ee.html'</span>;
+    }
+}
+</code></pre><p>运行：</p>
+<pre><code><span class="variable">$ </span>curl <span class="symbol">localhost:</span><span class="number">8390</span>/aa.html
+ee
+</code></pre><p>查看日志：</p>
+<pre><code><span class="attr_selector">[notice]</span> 13931<span class="id">#0</span><span class="value">: *<span class="number">38</span> <span class="string">"/aa.html$"</span> matches <span class="string">"/aa.html"</span>
+[notice] <span class="number">13931</span><span class="hexcolor">#0</span>: *<span class="number">38</span> rewritten data: <span class="string">"/bb.html"</span>
+[notice] <span class="number">13931</span><span class="hexcolor">#0</span>: *<span class="number">38</span> <span class="string">"/bb.html$"</span> matches <span class="string">"/bb.html"</span>
+[notice] <span class="number">13931</span><span class="hexcolor">#0</span>: *<span class="number">38</span> rewritten data: <span class="string">"/dd.html"</span>
+[notice] <span class="number">13931</span><span class="hexcolor">#0</span>: *<span class="number">38</span> <span class="string">"/dd.html$"</span> matches <span class="string">"/dd.html"</span>
+[notice] <span class="number">13931</span><span class="hexcolor">#0</span>: *<span class="number">38</span> rewritten data: <span class="string">"/ee.html"</span>               </span>
+</code></pre><p>结论：</p>
+<pre><code>建立<span class="number">3</span>个location（/aa和/bb和/dd）， 在/aa中把/aa<span class="preprocessor">.html</span>重写为/bb<span class="preprocessor">.html</span>,  
+又把/bb<span class="preprocessor">.html</span>重写为/dd,  然后在/dd中把/dd<span class="preprocessor">.html</span>重写为了/ee<span class="preprocessor">.html</span>, html匹配完毕，返回ee文件。
+
+<span class="number">1.</span> 可见默认情况下执行一个rewrite后，不会终止匹配，还会继续执行同一个location里的下一个rewrite
+<span class="number">2.</span> 重写成一个新的地址后，会拿这个新的地址重新进行location的匹配
+</code></pre><p><strong>有last</strong></p>
+<p>代码：</p>
+<pre><code><span class="title">server</span> {
+    <span class="title">listen</span>       <span class="number">8391</span>;
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /aa.html {
+
+      <span class="title">rewrite</span> <span class="string">'/aa.html$'</span> <span class="string">'/bb.html'</span> <span class="built_in">last</span>;
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/dd.html'</span>;
+    }
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /bb.html {
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/cc.html'</span>;
+    }
+}
+</code></pre><p>运行：</p>
+<pre><code><span class="variable">$ </span>curl <span class="symbol">localhost:</span><span class="number">8391</span>/aa.html
+cc
+</code></pre><p>查看日志：</p>
+<pre><code><span class="attr_selector">[notice]</span> 26113<span class="id">#0</span><span class="value">: *<span class="number">34</span> <span class="string">"/aa.html$"</span> matches <span class="string">"/aa.html"</span>
+[notice] <span class="number">26113</span><span class="hexcolor">#0</span>: *<span class="number">34</span> rewritten data: <span class="string">"/bb.html"</span>
+[notice] <span class="number">26113</span><span class="hexcolor">#0</span>: *<span class="number">34</span> <span class="string">"/bb.html$"</span> matches <span class="string">"/bb.html"</span>
+[notice] <span class="number">26113</span><span class="hexcolor">#0</span>: *<span class="number">34</span> rewritten data: <span class="string">"/cc.html"</span></span>
+</code></pre><p>结论：</p>
+<pre><code>建立两个location（/aa和/bb）， 在/aa中把/aa<span class="preprocessor">.html</span>重写为/bb<span class="preprocessor">.html</span>，  
+又在/bb中把/bb<span class="preprocessor">.html</span>重写为/cc<span class="preprocessor">.html</span>匹配完毕，返回cc文件。
+
+<span class="number">1.</span> 加上last flag后，在location中发现last，立即终止此location的匹配，  
+使用新的url重新进行新一轮的匹配
+</code></pre><p><strong>有break</strong></p>
+<p>代码：</p>
+<pre><code><span class="title">server</span> {
+    <span class="title">listen</span>       <span class="number">8392</span>;
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /aa.html {
+
+      <span class="title">rewrite</span> <span class="string">'/aa.html$'</span> <span class="string">'/bb.html'</span> <span class="built_in">break</span>;
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/dd.html'</span>;
+    }
+
+    <span class="title">location</span><span class="regexp"> ^~</span> /bb.html {
+      <span class="title">rewrite</span> <span class="string">'/bb.html$'</span> <span class="string">'/cc.html'</span>;
+    }
+}
+</code></pre><p>运行：</p>
+<pre><code><span class="variable">$ </span>curl <span class="symbol">localhost:</span><span class="number">8392</span>/aa.html
+bb
+</code></pre><p>查看日志：</p>
+<pre><code><span class="attr_selector">[notice]</span> 26113<span class="id">#0</span><span class="value">: *<span class="number">35</span> <span class="string">"/aa.html$"</span> matches <span class="string">"/aa.html"</span>
+[notice] <span class="number">26113</span><span class="hexcolor">#0</span>: *<span class="number">35</span> rewritten data: <span class="string">"/bb.html"</span></span>
+</code></pre><p>结论：</p>
+<pre><code>建立两个location（/aa和/bb）， 在/aa中把/aa<span class="preprocessor">.html</span>重写为/bb<span class="preprocessor">.html</span>,匹配完毕，返回bb文件。
+
+<span class="number">1.</span> 加上<span class="keyword">break</span> flag后，在location中发现<span class="keyword">break</span>，立即终止所有匹配，直接返回文件
+</code></pre><p><strong>参考文档：</strong></p>
+<ul>
+<li><a href="http://wiki.nginx.org/NginxHttpRewriteModule#rewrite" target="_blank">http://wiki.nginx.org/NginxHttpRewriteModule#rewrite</a></li>
+</ul>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/knowledge/">knowledge</a>
+  </div>
+
+      
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"maojs"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] 
+                     || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>

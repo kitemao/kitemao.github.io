@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>开涕小站 › 英文自动折行</title>
+  <meta name="author" content="jammiao">
+  
+  <meta name="description" content="一直在纠结着。。。纠结着。。。纠结着。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="英文自动折行"/>
+  <meta property="og:site_name" content="开涕小站"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="开涕小站" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51297180-1', 'maojs.com');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">开涕小站</a></h1>
+  <h2 id="header-h2">攻城师的点点滴滴</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">英文自动折行</h1>
+  
+
+      
+      <time datetime="2012-09-04T16:00:00.000Z">Sep 5 2012</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>在网页中英文数字不会自动折行，往往会撑出父元素。这个需要前端开发人员手动去处理，这里列出几种方式：</p>
+<p>一. <strong>css 方式</strong></p>
+<pre><code>    word-wrap:<span class="keyword">break</span>-word; 
+    word-<span class="keyword">break</span>: <span class="keyword">break</span>-<span class="built_in">all</span>;
+</code></pre><p>这种方式之前在firefox下是不支持的，但高版本的firefox已经加上此特性，所以目前所有的浏览器都已经支持了，大家可以放心的用。</p>
+<a id="more"></a>
+
+<p>二. <strong>wbr 方式（js）</strong></p>
+<pre><code>    <span class="keyword">var</span> wbr = <span class="function"><span class="keyword">function</span> <span class="params">(source)</span> {</span>
+        <span class="keyword">return</span> <span class="built_in">String</span>(source)
+            .replace(<span class="regexp">/(?:&lt;[^&gt;]+&gt;)|(?:&amp;#?[0-9a-z]{2,6};)|(.{1})/gi</span>, <span class="string">'$&amp;&lt;wbr&gt;'</span>)
+            .replace(<span class="regexp">/&gt;&lt;wbr&gt;/g</span>, <span class="string">'&gt;'</span>);
+    };
+</code></pre><p>之前由于firefox不支持第一种方式，所以一直用的此wbr方式，今天突然发现在ie8下不好用，调研后才发现是此次项目升级把 <code>&lt;code&gt;&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE7&quot; /&gt;&lt;/code&gt;</code>给去掉了，而恰恰在ie8下不支持wbr，暴露出了问题。汗！</p>
+<p>三. <strong>字符 方式（js）将 WBR 元素全部用 <code>&amp;#8203;</code> 替换。</strong></p>
+<pre><code>    <span class="keyword">var</span> wbr = <span class="function"><span class="keyword">function</span> <span class="params">(source)</span> {</span>
+        <span class="keyword">return</span> <span class="built_in">String</span>(source)
+            .replace(<span class="regexp">/(?:&lt;[^&gt;]+&gt;)|(?:&amp;#?[0-9a-z]{2,6};)|(.{1})/gi</span>, <span class="string">'$&amp;&amp;#8203;'</span>)
+            .replace(<span class="regexp">/&gt;&amp;#8203;/g</span>, <span class="string">'&gt;'</span>);
+    };
+</code></pre><p>别的浏览器都可以。但悲催的是发现有的ie8版本就把它解析成一个空格，我去</p>
+<p>四. <strong>字符 方式（js）将 WBR 元素全部用 <code>&amp;shy;</code> 替换。</strong></p>
+<pre><code>    <span class="keyword">var</span> wbr = <span class="function"><span class="keyword">function</span> <span class="params">(source)</span> {</span>
+        <span class="keyword">return</span> <span class="built_in">String</span>(source)
+            .replace(<span class="regexp">/(?:&lt;[^&gt;]+&gt;)|(?:&amp;#?[0-9a-z]{2,6};)|(.{1})/gi</span>, <span class="string">'$&amp;&amp;shy;'</span>)
+            .replace(<span class="regexp">/&gt;&amp;#8203;/g</span>, <span class="string">'&gt;'</span>);
+    };
+</code></pre><p>哈哈，这种方式所有浏览器都支持了。但注意有些浏览器会在换行的地方加一个分隔符（-）</p>
+<p>总结：现在最好的方式当然是css方式，简单而且所有浏览器都支持。 如果非用js方式的话，就用第四种吧。</p>
+<p><strong>参考文档：</strong></p>
+<ul>
+<li><a href="http://w3help.org/zh-cn/causes/BX1039" target="_blank">http://w3help.org/zh-cn/causes/BX1039</a>  </li>
+<li><a href="http://tangram.baidu.com/api.html#baidu.string.wbr" target="_blank">http://tangram.baidu.com/api.html#baidu.string.wbr</a></li>
+<li><a href="http://stackoverflow.com/questions/2257657/how-can-i-allow-text-to-wrap-inside-a-word-if-necessary" target="_blank">http://stackoverflow.com/questions/2257657/how-can-i-allow-text-to-wrap-inside-a-word-if-necessary</a></li>
+</ul>
+<p>-EOF-</p>
+
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/knowledge/">knowledge</a>
+  </div>
+
+      
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"maojs"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] 
+                     || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 jammiao
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>
